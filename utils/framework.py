@@ -570,6 +570,10 @@ class FewShotNERFramework:
                                 fast_weights['fc'][key] = orderd_params_fc[key] = val - self.args.task_lr * grad
                     logits, pred = model(support, query, query_flag=True, model_parameters=fast_weights)
                     # query_loss = model.loss(logits, label)
+                elif self.args.model == 'bert':
+                    # we need ids and mask 
+                                       
+                    logits, pred = model(support['word'], support['text_mask'] )
                 else:
                     logits, pred = model(support, query)
                     
@@ -1186,41 +1190,16 @@ class FewShotNERFramework_MAML:
                 # print_info = 'train_support, ' + str(support_loss.item())
                 # print('\033[0;31;40m{}\033[0m'.format(print_info))
                 self.__zero_grad__(model.fc.parameters())
-                # self.__zero_grad__(model.fc1.parameters())
-                # self.__zero_grad__(model.fc2.parameters())
-                # self.__zero_grad__(model.fc3.parameters())
-                # self.__zero_grad__(model.fc4.parameters())
+
 
                 grads_fc = autograd.grad(support_loss, model.fc.parameters(), allow_unused=True, retain_graph=True)
                 fast_weights_fc, orderd_params_fc = model.cloned_fc_dict(), OrderedDict()
                 for (key, val), grad in zip(model.fc.named_parameters(), grads_fc):
                     fast_weights_fc[key] = orderd_params_fc[key] = val - self.args.task_lr * grad
-                # grads_fc1 = autograd.grad(support_loss, model.fc1.parameters(), allow_unused=True, retain_graph=True)
-                # fast_weights_fc1, orderd_params_fc1 = model.cloned_fc1_dict(), OrderedDict()
-                # for (key, val), grad in zip(model.fc1.named_parameters(), grads_fc1):
-                #     fast_weights_fc1[key] = orderd_params_fc1[key] = val - self.args.task_lr * grad
 
-                # grads_fc2 = autograd.grad(support_loss, model.fc2.parameters(), allow_unused=True, retain_graph=True)
-                # fast_weights_fc2, orderd_params_fc2 = model.cloned_fc2_dict(), OrderedDict()
-                # for (key, val), grad in zip(model.fc2.named_parameters(), grads_fc2):
-                #     fast_weights_fc2[key] = orderd_params_fc2[key] = val - self.args.task_lr * grad
-
-                # grads_fc3 = autograd.grad(support_loss, model.fc3.parameters(), allow_unused=True, retain_graph=True)
-                # fast_weights_fc3, orderd_params_fc3 = model.cloned_fc3_dict(), OrderedDict()
-                # for (key, val), grad in zip(model.fc3.named_parameters(), grads_fc3):
-                #     fast_weights_fc3[key] = orderd_params_fc3[key] = val - self.args.task_lr * grad
-
-                # grads_fc4 = autograd.grad(support_loss, model.fc4.parameters(), allow_unused=True, retain_graph=True)
-                # fast_weights_fc4, orderd_params_fc4 = model.cloned_fc4_dict(), OrderedDict()
-                # for (key, val), grad in zip(model.fc4.named_parameters(), grads_fc4):
-                #     fast_weights_fc4[key] = orderd_params_fc4[key] = val - self.args.task_lr * grad
 
                 fast_weights = {}
                 fast_weights['fc'] = fast_weights_fc
-                # fast_weights['fc1'] = fast_weights_fc1
-                # fast_weights['fc2'] = fast_weights_fc2
-                # fast_weights['fc3'] = fast_weights_fc3
-                # fast_weights['fc4'] = fast_weights_fc4
 
                 train_support_acc = []
                 train_support_loss = []
@@ -1239,35 +1218,13 @@ class FewShotNERFramework_MAML:
                     # print_info = 'train_support, ' + str(support_loss.item())
                     # print('\033[0;31;40m{}\033[0m'.format(print_info))
                     self.__zero_grad__(orderd_params_fc.values())
-                    # self.__zero_grad__(model.fc1.parameters())
-                    # self.__zero_grad__(model.fc2.parameters())
-                    # self.__zero_grad__(model.fc3.parameters())
-                    # self.__zero_grad__(model.fc4.parameters())
 
                     grads_fc = torch.autograd.grad(support_loss, orderd_params_fc.values(), allow_unused=True, retain_graph=False)
                     for (key, val), grad in zip(orderd_params_fc.items(), grads_fc):
                         if grad is not None:
                             fast_weights['fc'][key] = orderd_params_fc[key] = val - self.args.task_lr * grad
                     
-                    # grads_fc1 = torch.autograd.grad(support_loss, orderd_params_fc1.values(), allow_unused=True, retain_graph=True)
-                    # for (key, val), grad in zip(orderd_params_fc1.items(), grads_fc1):
-                    #     if grad is not None:
-                    #         fast_weights['fc1'][key] = orderd_params_fc1[key] = val - self.args.task_lr * grad
                     
-                    # grads_fc2 = torch.autograd.grad(support_loss, orderd_params_fc2.values(), allow_unused=True, retain_graph=True)
-                    # for (key, val), grad in zip(orderd_params_fc2.items(), grads_fc2):
-                    #     if grad is not None:
-                    #         fast_weights['fc2'][key] = orderd_params_fc2[key] = val - self.args.task_lr * grad
-
-                    # grads_fc3 = torch.autograd.grad(support_loss, orderd_params_fc3.values(), allow_unused=True, retain_graph=True)
-                    # for (key, val), grad in zip(orderd_params_fc3.items(), grads_fc3):
-                    #     if grad is not None:
-                    #         fast_weights['fc3'][key] = orderd_params_fc3[key] = val - self.args.task_lr * grad
-
-                    # grads_fc4 = torch.autograd.grad(support_loss, orderd_params_fc4.values(), allow_unused=True)
-                    # for (key, val), grad in zip(orderd_params_fc4.items(), grads_fc4):
-                    #     if grad is not None:
-                    #         fast_weights['fc4'][key] = orderd_params_fc4[key] = val - self.args.task_lr * grad
                 
                 query_logits, query_pred = model(query, fast_weights)
                 if self.args.use_class_weights == True:
