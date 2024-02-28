@@ -26,10 +26,14 @@ class BertNERModel(utils.framework.FewShotNERModel):
         self.softmax = nn.LogSoftmax(dim=1)
 
     def forward(self, ids, mask):
+
         outputs = self.bert(ids, attention_mask=mask)
         pooled_output = outputs.pooler_output
         pooled_output = self.dropout(pooled_output)
         logits = self.fc(pooled_output)
-        return self.softmax(logits)
+        logits = torch.cat(logits, 0)
+
+        pred = torch.argmax(self.softmax(logits), dim=1)
+        return logits, pred
 
 

@@ -88,7 +88,4 @@ class NNShot(utils.framework.FewShotNERModel):
         logits = torch.cat(logits, 0)
         _, pred = torch.max(logits, 1)
         return logits, pred
-
-    
-    
     
