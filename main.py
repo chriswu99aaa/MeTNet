@@ -156,6 +156,11 @@ def main():
         print('use proto_multiOclass')
         model = Proto_multiOclass(opt, word_encoder, dot=opt.dot, ignore_index=opt.ignore_index)
         framework = FewShotNERFramework(opt, tokenizer, train_data_loader, val_data_loader, test_data_loader, use_sampled_data=opt.use_sampled_data)
+    elif model_name = 'bert':
+        print('use BERT model')
+        model = BertNERModel(opt, word_encoder, dot=opt.dot, ignore_index=top.ignore_index)
+        framework = FewShotNERFramework(opt, tokenizer, train_data_loader, val_data_loader, test_data_loader, use_sampled_data=opt.use_sampled_data)
+
     else:
         raise NotImplementedError
 
