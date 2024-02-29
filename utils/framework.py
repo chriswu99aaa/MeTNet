@@ -577,7 +577,7 @@ class FewShotNERFramework:
                 else:
                     logits, pred = model(support, query)
 
-                print('support and query label: ', support['label'].shape, query['label'].shape)
+                print('support and query label: ', len(support['label']), len(query['label']))
                 print('logits and label shape: ', logits.shape, label.shape)
                 
                 assert logits.shape[0] == label.shape[0], print(logits.shape, label.shape)
