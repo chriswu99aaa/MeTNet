@@ -22,7 +22,7 @@ class BertNERModel(utils.framework.FewShotNERModel):
         self.bert = BertModel.from_pretrained('bert-base-chinese')
         self.dropout = nn.Dropout(0.1) 
         # output layer
-        self.linear1 = nn.Linear(self.bert.config.hidden_size, 111)# 111 number of classes
+        self.fc= nn.Linear(self.bert.config.hidden_size, 111)# 111 number of classes
         self.softmax = nn.LogSoftmax(dim=1)
 
     def forward(self, ids, mask):
