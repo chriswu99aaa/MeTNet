@@ -31,7 +31,6 @@ class BertNERModel(utils.framework.FewShotNERModel):
         pooled_output = outputs.pooler_output
         pooled_output = self.dropout(pooled_output)
         logits = self.fc(pooled_output)
-        logits = torch.cat(logits, 0)
 
         pred = torch.argmax(self.softmax(logits), dim=1)
         return logits, pred
