@@ -533,7 +533,7 @@ class FewShotNERFramework:
                     label = torch.cat(query['label'], 0)
                     label = label.cuda()
                     support_label = torch.cat(support['label'], 0).cuda()
-                
+               
                 
                 if self.args.model == 'proto_maml':
                     # MAML
@@ -577,7 +577,7 @@ class FewShotNERFramework:
                 else:
                     logits, pred = model(support, query)
 
-                print('support and query label: ', len(support['label']), len(query['label']))
+                print('support and query label: ', support_label.shape, label.shape)
                 print('logits and label shape: ', logits.shape, label.shape)
                 
                 assert logits.shape[0] == label.shape[0], print(logits.shape, label.shape)
