@@ -874,6 +874,8 @@ class FewShotNERFramework:
                                 fast_weights['fc'][key] = orderd_params_fc[key] = val - self.args.task_lr * grad
                     logits, pred = model(support, query, query_flag=True, model_parameters=fast_weights)
                     # query_loss = model.loss(logits, label)
+                elif self.args.model == 'bert':
+                    logits, pred = model(support['word'], support['text_mask'])
                 else:
                     logits, pred = model(support, query)
                 if self.viterbi:
