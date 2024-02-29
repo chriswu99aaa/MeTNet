@@ -573,7 +573,7 @@ class FewShotNERFramework:
                 elif self.args.model == 'bert':
                     # we need ids and mask 
                                       
-                    logits, pred = model(support['word'], support['text_mask'] )
+                    logits, pred = model(support['word'], support['text_mask'])
                 else:
                     logits, pred = model(support, query)
                 
