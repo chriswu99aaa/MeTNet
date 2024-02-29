@@ -18,7 +18,7 @@ class BertNERModel(utils.framework.FewShotNERModel):
     """
 
     def __init__(self, args, word_encoder, dot=False, ignore_index=-1):
-        utils.framework.FewShotNERMOdel.__init__(self, args, word_encoder, ignore_index=ignore_index)
+        utils.framework.FewShotNERModel.__init__(self, args, word_encoder, ignore_index=ignore_index)
         self.bert = BertModel.from_pretrained('bert-base-chinese')
         self.dropout = nn.Dropout(0.1) 
         # output layer
