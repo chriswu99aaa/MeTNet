@@ -7,7 +7,8 @@ dataset=fewcomm
 dataset_mode=IO
 N=5
 K=1
-python -u main.py --multi_margin --use_proto_as_neg --model MTNet --dataset $dataset --dataset_mode $dataset_mode  --trainN $N --N $N --K $K --Q 1 --trainable_margin_init 6.5
+Q=$K
+python -u main.py --multi_margin --use_proto_as_neg --model MTNet --dataset $dataset --dataset_mode $dataset_mode  --trainN $N --N $N --K $K --Q $Q --trainable_margin_init 6.5
 
 K=5
 python -u main.py --multi_margin --use_proto_as_neg --model MTNet --dataset $dataset --dataset_mode $dataset_mode  --trainN $N --N $N --K $K --Q 1 --trainable_margin_init 7.3
