@@ -583,10 +583,11 @@ class FewShotNERFramework:
                     loss = model.loss(logits, label) / float(grad_iter)
                     print(loss)
                 elif self.args.model == 'bert':
+                    print('support and query label: ', support_label.shape, label.shape)
+                    print('logits and label shape: ', logits.shape, label.shape)                    
                     assert logits.shape[0] == label.shape[0], print(logits.shape, support_label.shape) 
 
-                    print('support and query label: ', support_label.shape, label.shape)
-                    print('logits and label shape: ', logits.shape, label.shape)
+
                 if fp16:
                     with amp.scale_loss(loss, optimizer) as scaled_loss:
                         scaled_loss.backward()
