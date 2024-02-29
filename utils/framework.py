@@ -496,7 +496,7 @@ class FewShotNERFramework:
                     ]
                 }
                 '''
-                
+
                 # BIO data preprocess
                 if self.args.dataset_mode == 'BIO':
                     support, query = self.__get_BIO_data__(support, query)
