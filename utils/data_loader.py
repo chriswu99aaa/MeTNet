@@ -325,6 +325,7 @@ def get_loader(filepath, tokenizer, N, K, Q, batch_size, max_length,
         num_workers=8, collate_fn=collate_fn, ignore_index=-1, use_sampled_data=True):
     if not use_sampled_data:
         dataset = FewShotNERDatasetWithRandomSampling(filepath, tokenizer, N, K, Q, max_length, ignore_label_id=ignore_index)
+        print('use random sampling')
     else:
         dataset = FewShotNERDataset(filepath, tokenizer, max_length, ignore_label_id=ignore_index)
     data_loader = data.DataLoader(dataset=dataset,
