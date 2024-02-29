@@ -572,14 +572,17 @@ class FewShotNERFramework:
                     # query_loss = model.loss(logits, label)
                 elif self.args.model == 'bert':
                     # we need ids and mask 
-                                       
+                                      
                     logits, pred = model(support['word'], support['text_mask'] )
                 else:
                     logits, pred = model(support, query)
-                    
+
+                print('logits and label shape: ', logits.shape[0], label.shape[0])
+                
                 assert logits.shape[0] == label.shape[0], print(logits.shape, label.shape)
+                
                 loss = model.loss(logits, label) / float(grad_iter)
-                # print(loss)
+                print(loss)
 
                 if fp16:
                     with amp.scale_loss(loss, optimizer) as scaled_loss:
