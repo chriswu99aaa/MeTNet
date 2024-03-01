@@ -101,11 +101,11 @@ def main():
             raise RuntimeError('data file is not exist!')
     
     train_data_loader = get_loader(opt.train, tokenizer,
-            N=trainN, K=K, Q=Q, batch_size=batch_size, max_length=max_length, ignore_index=opt.ignore_index, use_sampled_data=opt.use_sampled_data)
+            N=trainN, K=K, Q=Q, batch_size=batch_size, max_length=max_length, ignore_index=opt.ignore_index, use_sampled_data=False)
     val_data_loader = get_loader(opt.dev, tokenizer,
-            N=N, K=K, Q=Q, batch_size=1, max_length=max_length, ignore_index=opt.ignore_index, use_sampled_data=opt.use_sampled_data)
+            N=N, K=K, Q=Q, batch_size=1, max_length=max_length, ignore_index=opt.ignore_index, use_sampled_data=False)
     test_data_loader = get_loader(opt.test, tokenizer,
-            N=N, K=K, Q=Q, batch_size=1, max_length=max_length, ignore_index=opt.ignore_index, use_sampled_data=opt.use_sampled_data)
+            N=N, K=K, Q=Q, batch_size=1, max_length=max_length, ignore_index=opt.ignore_index, use_sampled_data=False)
 
 
     prefix = '-'.join([model_name, opt.dataset, opt.mode, opt.dataset_mode, str(N), str(K), 'seed'+str(opt.seed), str(int(round(time.time() * 1000)))])
