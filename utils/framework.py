@@ -532,6 +532,7 @@ class FewShotNERFramework:
                             query[k] = query[k].cuda()
                     label = torch.cat(query['label'], 0)
                     label = label.cuda()
+                    print("sp_label: ", support['label'])
                     support_label = torch.cat(support['label'], 0).cuda()
                
                 
