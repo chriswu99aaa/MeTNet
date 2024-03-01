@@ -572,8 +572,13 @@ class FewShotNERFramework:
                     # query_loss = model.loss(logits, label)
                 elif self.args.model == 'bert':
                     # we need ids and mask 
-                                      
+                    # the input align with output of logits support should have the shape as support_label
+
+                    print('support[word]: ', len(support['word']))
+                    print('support_label: ', len(support_label))
+                    
                     logits, pred = model(support['word'], support['text_mask'])
+                    print('logits: ', logits.shape)
                 else:
                     logits, pred = model(support, query)
                 
@@ -585,8 +590,9 @@ class FewShotNERFramework:
                 elif self.args.model == 'bert':
                     print('support and query label: ', support_label.shape, label.shape)
                     print('logits and label shape: ', logits.shape, label.shape)                    
-                    assert logits.shape[0] == label.shape[0], print(logits.shape, support_label.shape) 
+                    assert logits.shape[0] == support_label.shape[0], print(logits.shape, support_label.shape) 
 
+                    loss = model.loss(logits, label) / float(grad_iter)
 
                 if fp16:
                     with amp.scale_loss(loss, optimizer) as scaled_loss:

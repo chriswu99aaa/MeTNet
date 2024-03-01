@@ -22,17 +22,17 @@ class BertNERModel(utils.framework.FewShotNERModel):
         self.bert = BertModel.from_pretrained('bert-base-chinese')
         self.dropout = nn.Dropout(0.1) 
         # output layer
-        self.fc= nn.Linear(self.bert.config.hidden_size, num_classes)# 111 number of classes
+        self.fc= nn.Linear(self.bert.config.hidden_size, self.args.N+1)
         # self.softmax = nn.LogSoftmax(dim=1)
 
     def forward(self, ids, mask):
-
+# check if the encoding should be changed
         outputs = self.bert(ids, attention_mask=mask)
         pooled_output = outputs.pooler_output
         pooled_output = self.dropout(pooled_output)
         logits = self.fc(pooled_output)
 
-        pred = torch.max(logits,1)
+        pred = torch.argmax(logits,1)
         return logits, pred
 
 
