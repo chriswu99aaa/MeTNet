@@ -13,7 +13,7 @@ def config():
     parser.add_argument('--N', default=5, type=int, help='N way')
     parser.add_argument('--K', default=1, type=int, help='K shot')
     parser.add_argument('--Q', default=1, type=int, help='Num of queries per class')
-    parser.add_argument('--batch_size', default=4, type=int, help='batch size')
+    parser.add_argument('--batch_size', default=1, type=int, help='batch size')
     parser.add_argument('--train_iter', default=6000, type=int, help='num of iters in training, default=6000')
     parser.add_argument('--val_iter', default=100, type=int, help='num of iters in validation')
     parser.add_argument('--test_iter', default=500, type=int, help='num of iters in testing, default=500')
