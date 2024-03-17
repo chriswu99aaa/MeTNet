@@ -58,7 +58,7 @@ def config():
 
 
     # MTNet
-    parser.add_argument("--bert_lr", type=float, default=2e-5, help="learning rate of bert")
+    parser.add_argument("--bert_lr", type=float, default=2e-4, help="learning rate of bert")
     parser.add_argument("--meta_lr", type=float, default=5e-4, help="learning rate of meta(out)")
     parser.add_argument("--task_lr", type=float, default=1e-1, help="learning rate of task(in)")
     parser.add_argument("--train_support_iter", type=int, default=3, help="Number of iterations of training(in)")
